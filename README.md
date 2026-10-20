@@ -1,1 +1,45 @@
-IyBHbHVjb3NlIFNoYXJlCgpTdGFuZGFsb25lLCBpc29sYXRlZCBnbHVjb3NlIGRhc2hib2FyZCBmb3Igc2hhcmluZyB3aXRoIGZyaWVuZHMgZm9yIHRlc3RpbmcuCgojIyBXaGF0IGl0IGlzCgpBIG1pbmltYWwgd2ViIHNlcnZlciB0aGF0IHNlcnZlcyAqKm9ubHkqKiB0aGUgZ2x1Y29zZSBwYWdlIGZyb20gdGhlIFBlcnNvbmFsIEhlYWx0aCBNYW5hZ2VyOgoKLSBgL2Ag4oCUIHRoZSBnbHVjb3NlIGRhc2hib2FyZCAobm8gbmF2aWdhdGlvbiB0byBvdGhlciBwYWdlcykKLSBgL2dsdWNvc2VfZGF0YS5qc2Ag4oCUIGxpdmUgZ2x1Y29zZSBkYXRhIChyZWFkIGRpcmVjdGx5IGZyb20gdGhlIG1haW4gcHJvamVjdCkKLSBgL2dsdWNvc2Vfdmlldy5qc2Ag4oCUIGNoYXJ0IGFuZCBhbmFseXNpcyBsb2dpYwotIGAvc3RhdGljLypgIOKAlCBDU1MvSlMgYXNzZXRzCi0gYC9hcGkvZGV4Y29tLypgIOKAlCBwcm94aWVkIHRvIHRoZSBtYWluIHNlcnZlciBzbyB0aGUgU3luYyBidXR0b24gd29ya3MKCkV2ZXJ5dGhpbmcgZWxzZSByZXR1cm5zIDQwNC4gRnJpZW5kcyBjYW5ub3QgYWNjZXNzIGxhYnMsIHdlaWdodCwgbWVkaWNhdGlvbnMsIG9yIGFueSBvdGhlciBwYXJ0IG9mIHRoZSBoZWFsdGggbWFuYWdlci4KCiMjIFJ1bm5pbmcKCmBgYGJhc2gKY2Qgfi9Eb2N1bWVudHMvSGVhbHRoL2dsdWNvc2Utc2hhcmUKcHl0aG9uMyBzaGFyZV9zZXJ2ZXIucHkKYGBgCgpTZXJ2ZXMgb24gYGh0dHA6Ly8xMjcuMC4wLjE6MzAwM2AuCgojIyBTaGFyaW5nIHZpYSBUYWlsc2NhbGUgRnVubmVsCgpgYGBiYXNoCnRhaWxzY2FsZSBmdW5uZWwgLS1iZyAtLWh0dHBzIDg0NDQgaHR0cDovL2xvY2FsaG9zdDozMDAzCmBgYAoKRnJpZW5kcyBvcGVuIHRoZSBwcmludGVkIHB1YmxpYyBVUkwgaW4gYW55IGJyb3dzZXIg4oCUIG5vIFRhaWxzY2FsZSBuZWVkZWQuCgpUbyBzdG9wOgoKYGBgYmFzaAp0YWlsc2NhbGUgZnVubmVsIC0taHR0cHM9ODQ0NCBvZmYKcGtpbGwgLWYgc2hhcmVfc2VydmVyLnB5CmBgYAoKIyMgTm90ZXMKCi0gYGdsdWNvc2VfZGF0YS5qc2AgaXMgcmVhZCBsaXZlIGZyb20gdGhlIG1haW4gcHJvamVjdCBkaXJlY3RvcnksIHNvIGl0IHN0YXlzIGZyZXNoIGFmdGVyIGVhY2ggRGV4Y29tIHN5bmMuCi0gVGhlIFN5bmMgYnV0dG9uIHByb3hpZXMgdG8gdGhlIG1haW4gaGVhbHRoLW1hbmFnZXIgc2VydmVyIChtdXN0IGJlIHJ1bm5pbmcgb24gcG9ydCAzMDAyKS4KLSBgc2hhcmUubG9nYCBhbmQgYHBhdGhzLmxvZ2AgYXJlIHJ1bnRpbWUgbG9ncyAoZ2l0LWlnbm9yZWQpLgo=
+# Glucose Share
+
+Standalone, isolated glucose dashboard for sharing with friends for testing.
+
+## What it is
+
+A minimal web server that serves **only** the glucose page from the Personal Health Manager:
+
+- `/` — the glucose dashboard (no navigation to other pages)
+- `/glucose_data.js` — live glucose data (read directly from the main project)
+- `/glucose_view.js` — chart and analysis logic
+- `/static/*` — CSS/JS assets
+- `/api/dexcom/*` — proxied to the main server so the Sync button works
+
+Everything else returns 404. Friends cannot access labs, weight, medications, or any other part of the health manager.
+
+## Running
+
+```bash
+cd ~/Documents/Health/glucose-share
+python3 share_server.py
+```
+
+Serves on `http://127.0.0.1:3003`.
+
+## Sharing via Tailscale Funnel
+
+```bash
+tailscale funnel --bg --https 8444 http://localhost:3003
+```
+
+Friends open the printed public URL in any browser — no Tailscale needed.
+
+To stop:
+
+```bash
+tailscale funnel --https=8444 off
+pkill -f share_server.py
+```
+
+## Notes
+
+- `glucose_data.js` is read live from the main project directory, so it stays fresh after each Dexcom sync.
+- The Sync button proxies to the main health-manager server (must be running on port 3002).
+- `share.log` and `paths.log` are runtime logs (git-ignored).

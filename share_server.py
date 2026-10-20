@@ -1,1 +1,125 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiJTdGFuZGFsb25lIGdsdWNvc2Ugc2hhcmUgc2VydmVyIOKAlCBzZXJ2ZXMgT05MWSB0aGUgZ2x1Y29zZSBwYWdlLgoKV2hpdGVsaXN0OgogIC8gLCAvaW5kZXguaHRtbCAgICAgICAgICAtPiBzaGFyZSBpbmRleC5odG1sIChubyBuYXYpCiAgL2dsdWNvc2VfZGF0YS5qcyAgICAgICAgIC0+IGxpdmUgZGF0YSBmcm9tIG1haW4gcHJvamVjdCBkaXIKICAvZ2x1Y29zZV92aWV3LmpzICAgICAgICAgLT4gdmlldyBsb2dpYyBmcm9tIG1haW4gcHJvamVjdCBkaXIKICAvc3RhdGljLyogICAgICAgICAgICAgICAgLT4gQ1NTL0pTIGFzc2V0cyBmcm9tIG1haW4gcHJvamVjdCBkaXIKICAvYXBpL2RleGNvbS8qICAgICAgICAgICAgLT4gcHJveGllZCB0byBtYWluIHNlcnZlciAobG9jYWxob3N0OjMwMDIpIGZvciBTeW5jCkV2ZXJ5dGhpbmcgZWxzZSAtPiA0MDQuIFRoZSByZXN0IG9mIHRoZSBoZWFsdGggbWFuYWdlciBpcyBOT1QgYWNjZXNzaWJsZS4KIiIiCmltcG9ydCBodHRwLnNlcnZlcgppbXBvcnQgc29ja2V0c2VydmVyCmltcG9ydCB1cmxsaWIucmVxdWVzdAppbXBvcnQgdXJsbGliLmVycm9yCmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aApmcm9tIHVybGxpYi5wYXJzZSBpbXBvcnQgdXJscGFyc2UKCk1BSU5fRElSID0gUGF0aC5ob21lKCkgLyAiRG9jdW1lbnRzL0hlYWx0aC9wZXJzb25hbF9oZWFsdGhfbWFuYWdlciIKU0hBUkVfRElSID0gUGF0aC5ob21lKCkgLyAiRG9jdW1lbnRzL0hlYWx0aC9nbHVjb3NlLXNoYXJlIgpNQUlOX1BPUlQgPSAzMDAyClNIQVJFX1BPUlQgPSAzMDAzCgpNSU1FID0gewogICAgIi5odG1sIjogInRleHQvaHRtbDsgY2hhcnNldD11dGYtOCIsCiAgICAiLmpzIjogImFwcGxpY2F0aW9uL2phdmFzY3JpcHQ7IGNoYXJzZXQ9dXRmLTgiLAogICAgIi5jc3MiOiAidGV4dC9jc3M7IGNoYXJzZXQ9dXRmLTgiLAogICAgIi5qc29uIjogImFwcGxpY2F0aW9uL2pzb24iLAogICAgIi5wbmciOiAiaW1hZ2UvcG5nIiwKICAgICIuanBnIjogImltYWdlL2pwZWciLAogICAgIi5zdmciOiAiaW1hZ2Uvc3ZnK3htbCIsCiAgICAiLndvZmYyIjogImZvbnQvd29mZjIiLAp9CgoKY2xhc3MgSGFuZGxlcihodHRwLnNlcnZlci5CYXNlSFRUUFJlcXVlc3RIYW5kbGVyKToKICAgIHNlcnZlcl92ZXJzaW9uID0gIkdsdWNvc2VTaGFyZS8xLjAiCgogICAgZGVmIGxvZ19tZXNzYWdlKHNlbGYsIGZtdCwgKmFyZ3MpOgogICAgICAgIHByaW50KGZtdCAlIGFyZ3MpCgogICAgZGVmIGRvX0dFVChzZWxmKToKICAgICAgICBzZWxmLmhhbmRsZV9yZXEocHJveHlfYm9keT1GYWxzZSkKCiAgICBkZWYgZG9fUE9TVChzZWxmKToKICAgICAgICBzZWxmLmhhbmRsZV9yZXEocHJveHlfYm9keT1UcnVlKQoKICAgIGRlZiBoYW5kbGVfcmVxKHNlbGYsIHByb3h5X2JvZHkpOgogICAgICAgIHJhdyA9IHNlbGYucGF0aAogICAgICAgIHBhdGggPSB1cmxwYXJzZShyYXcpLnBhdGgKICAgICAgICAjIExvZyByYXcgcGF0aCBmb3IgZGVidWdnaW5nIGZ1bm5lbCBpc3N1ZXMKICAgICAgICB3aXRoIG9wZW4oU0hBUkVfRElSIC8gInBhdGhzLmxvZyIsICJhIikgYXMgZjoKICAgICAgICAgICAgZi53cml0ZShmIntyYXd9IC0+IHtwYXRofVxuIikKCiAgICAgICAgIyBEZXhjb20gQVBJIC0+IHByb3h5IHRvIG1haW4gc2VydmVyIHNvIFN5bmMgd29ya3MKICAgICAgICBpZiBwYXRoLnN0YXJ0c3dpdGgoIi9hcGkvZGV4Y29tLyIpOgogICAgICAgICAgICBzZWxmLnByb3h5X2FwaShwcm94eV9ib2R5KQogICAgICAgICAgICByZXR1cm4KCiAgICAgICAgIyBTdGF0aWMgYXNzZXRzIGZyb20gbWFpbiBwcm9qZWN0IGRpcgogICAgICAgIGlmIHBhdGguc3RhcnRzd2l0aCgiL3N0YXRpYy8iKToKICAgICAgICAgICAgZnBhdGggPSAoTUFJTl9ESVIgLyBwYXRoLmxzdHJpcCgiLyIpKS5yZXNvbHZlKCkKICAgICAgICAgICAgaWYgTUFJTl9ESVIucmVzb2x2ZSgpIGluIGZwYXRoLnBhcmVudHMgYW5kIGZwYXRoLmlzX2ZpbGUoKToKICAgICAgICAgICAgICAgIHNlbGYuc2VydmVfZmlsZShmcGF0aCkKICAgICAgICAgICAgICAgIHJldHVybgogICAgICAgICAgICBzZWxmLnNlbmRfZXJyb3IoNDA0LCAiTm90IHNoYXJlZCIpCiAgICAgICAgICAgIHJldHVybgoKICAgICAgICAjIFBhZ2UgKyBkYXRhICsgdmlldyBsb2dpYwogICAgICAgIGlmIHBhdGggaW4gKCIvIiwgIi9pbmRleC5odG1sIiwgIi9nbHVjb3NlLmh0bWwiLCAiL2dsdWNvc2UiKToKICAgICAgICAgICAgc2VsZi5zZXJ2ZV9maWxlKFNIQVJFX0RJUiAvICJpbmRleC5odG1sIikKICAgICAgICAgICAgcmV0dXJuCiAgICAgICAgaWYgcGF0aCA9PSAiL2dsdWNvc2VfZGF0YS5qcyI6CiAgICAgICAgICAgIHNlbGYuc2VydmVfZmlsZShNQUlOX0RJUiAvICJnbHVjb3NlX2RhdGEuanMiKQogICAgICAgICAgICByZXR1cm4KICAgICAgICBpZiBwYXRoID09ICIvZ2x1Y29zZV92aWV3LmpzIjoKICAgICAgICAgICAgc2VsZi5zZXJ2ZV9maWxlKE1BSU5fRElSIC8gImdsdWNvc2Vfdmlldy5qcyIpCiAgICAgICAgICAgIHJldHVybgoKICAgICAgICBzZWxmLnNlbmRfZXJyb3IoNDA0LCAiTm90IHNoYXJlZCIpCgogICAgZGVmIHNlcnZlX2ZpbGUoc2VsZiwgZnBhdGgpOgogICAgICAgIHRyeToKICAgICAgICAgICAgZGF0YSA9IGZwYXRoLnJlYWRfYnl0ZXMoKQogICAgICAgIGV4Y2VwdCBPU0Vycm9yOgogICAgICAgICAgICBzZWxmLnNlbmRfZXJyb3IoNDA0LCAiTm90IGZvdW5kIikKICAgICAgICAgICAgcmV0dXJuCiAgICAgICAgY3R5cGUgPSBNSU1FLmdldChmcGF0aC5zdWZmaXgubG93ZXIoKSwgImFwcGxpY2F0aW9uL29jdGV0LXN0cmVhbSIpCiAgICAgICAgc2VsZi5zZW5kX3Jlc3BvbnNlKDIwMCkKICAgICAgICBzZWxmLnNlbmRfaGVhZGVyKCJDb250ZW50LVR5cGUiLCBjdHlwZSkKICAgICAgICBzZWxmLnNlbmRfaGVhZGVyKCJDb250ZW50LUxlbmd0aCIsIHN0cihsZW4oZGF0YSkpKQogICAgICAgIHNlbGYuc2VuZF9oZWFkZXIoIkNhY2hlLUNvbnRyb2wiLCAibm8tY2FjaGUiKQogICAgICAgIHNlbGYuZW5kX2hlYWRlcnMoKQogICAgICAgIHNlbGYud2ZpbGUud3JpdGUoZGF0YSkKCiAgICBkZWYgcHJveHlfYXBpKHNlbGYsIHdpdGhfYm9keSk6CiAgICAgICAgdXJsID0gZiJodHRwOi8vbG9jYWxob3N0OntNQUlOX1BPUlR9e3NlbGYucGF0aH0iCiAgICAgICAgYm9keSA9IE5vbmUKICAgICAgICBpZiB3aXRoX2JvZHk6CiAgICAgICAgICAgIGxlbmd0aCA9IGludChzZWxmLmhlYWRlcnMuZ2V0KCJDb250ZW50LUxlbmd0aCIsIDApKQogICAgICAgICAgICBib2R5ID0gc2VsZi5yZmlsZS5yZWFkKGxlbmd0aCkgaWYgbGVuZ3RoIGVsc2UgTm9uZQogICAgICAgIHJlcSA9IHVybGxpYi5yZXF1ZXN0LlJlcXVlc3QodXJsLCBkYXRhPWJvZHksIG1ldGhvZD1zZWxmLmNvbW1hbmQpCiAgICAgICAgZm9yIGssIHYgaW4gc2VsZi5oZWFkZXJzLml0ZW1zKCk6CiAgICAgICAgICAgIGlmIGsubG93ZXIoKSBub3QgaW4gKCJob3N0IiwgImNvbnRlbnQtbGVuZ3RoIik6CiAgICAgICAgICAgICAgICByZXEuYWRkX2hlYWRlcihrLCB2KQogICAgICAgIHRyeToKICAgICAgICAgICAgd2l0aCB1cmxsaWIucmVxdWVzdC51cmxvcGVuKHJlcSwgdGltZW91dD02MCkgYXMgcmVzcDoKICAgICAgICAgICAgICAgIGRhdGEgPSByZXNwLnJlYWQoKQogICAgICAgICAgICAgICAgc2VsZi5zZW5kX3Jlc3BvbnNlKHJlc3Auc3RhdHVzKQogICAgICAgICAgICAgICAgY3R5cGUgPSByZXNwLmhlYWRlcnMuZ2V0KCJDb250ZW50LVR5cGUiLCAiYXBwbGljYXRpb24vanNvbiIpCiAgICAgICAgICAgICAgICBzZWxmLnNlbmRfaGVhZGVyKCJDb250ZW50LVR5cGUiLCBjdHlwZSkKICAgICAgICAgICAgICAgIHNlbGYuc2VuZF9oZWFkZXIoIkNvbnRlbnQtTGVuZ3RoIiwgc3RyKGxlbihkYXRhKSkpCiAgICAgICAgICAgICAgICBzZWxmLmVuZF9oZWFkZXJzKCkKICAgICAgICAgICAgICAgIHNlbGYud2ZpbGUud3JpdGUoZGF0YSkKICAgICAgICBleGNlcHQgdXJsbGliLmVycm9yLkhUVFBFcnJvciBhcyBlOgogICAgICAgICAgICBzZWxmLnNlbmRfZXJyb3IoZS5jb2RlLCBlLnJlYXNvbikKICAgICAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGU6CiAgICAgICAgICAgIHNlbGYuc2VuZF9lcnJvcig1MDIsIGYiUHJveHkgZXJyb3I6IHtlfSIpCgoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAgIHdpdGggc29ja2V0c2VydmVyLlRocmVhZGluZ1RDUFNlcnZlcigoIjEyNy4wLjAuMSIsIFNIQVJFX1BPUlQpLCBIYW5kbGVyKSBhcyBodHRwZDoKICAgICAgICBodHRwZC5hbGxvd19yZXVzZV9hZGRyZXNzID0gVHJ1ZQogICAgICAgIHByaW50KGYiR2x1Y29zZSBzaGFyZSBzZXJ2ZXIgb24gaHR0cDovLzEyNy4wLjAuMTp7U0hBUkVfUE9SVH0gKGdsdWNvc2UgcGFnZSBvbmx5KSIpCiAgICAgICAgaHR0cGQuc2VydmVfZm9yZXZlcigpCg==
+#!/usr/bin/env python3
+"""Standalone glucose share server — serves ONLY the glucose page.
+
+Whitelist:
+  / , /index.html          -> share index.html (no nav)
+  /glucose_data.js         -> live data from main project dir
+  /glucose_view.js         -> view logic from main project dir
+  /static/*                -> CSS/JS assets from main project dir
+  /api/dexcom/*            -> proxied to main server (localhost:3002) for Sync
+Everything else -> 404. The rest of the health manager is NOT accessible.
+"""
+import http.server
+import socketserver
+import urllib.request
+import urllib.error
+from pathlib import Path
+from urllib.parse import urlparse
+
+MAIN_DIR = Path.home() / "Documents/Health/personal_health_manager"
+SHARE_DIR = Path.home() / "Documents/Health/glucose-share"
+MAIN_PORT = 3002
+SHARE_PORT = 3003
+
+MIME = {
+    ".html": "text/html; charset=utf-8",
+    ".js": "application/javascript; charset=utf-8",
+    ".css": "text/css; charset=utf-8",
+    ".json": "application/json",
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".svg": "image/svg+xml",
+    ".woff2": "font/woff2",
+}
+
+
+class Handler(http.server.BaseHTTPRequestHandler):
+    server_version = "GlucoseShare/1.0"
+
+    def log_message(self, fmt, *args):
+        print(fmt % args)
+
+    def do_GET(self):
+        self.handle_req(proxy_body=False)
+
+    def do_POST(self):
+        self.handle_req(proxy_body=True)
+
+    def handle_req(self, proxy_body):
+        raw = self.path
+        path = urlparse(raw).path
+        # Log raw path for debugging funnel issues
+        with open(SHARE_DIR / "paths.log", "a") as f:
+            f.write(f"{raw} -> {path}\n")
+
+        # Dexcom API -> proxy to main server so Sync works
+        if path.startswith("/api/dexcom/"):
+            self.proxy_api(proxy_body)
+            return
+
+        # Static assets from main project dir
+        if path.startswith("/static/"):
+            fpath = (MAIN_DIR / path.lstrip("/")).resolve()
+            if MAIN_DIR.resolve() in fpath.parents and fpath.is_file():
+                self.serve_file(fpath)
+                return
+            self.send_error(404, "Not shared")
+            return
+
+        # Page + data + view logic
+        if path in ("/", "/index.html", "/glucose.html", "/glucose"):
+            self.serve_file(SHARE_DIR / "index.html")
+            return
+        if path == "/glucose_data.js":
+            self.serve_file(MAIN_DIR / "glucose_data.js")
+            return
+        if path == "/glucose_view.js":
+            self.serve_file(MAIN_DIR / "glucose_view.js")
+            return
+
+        self.send_error(404, "Not shared")
+
+    def serve_file(self, fpath):
+        try:
+            data = fpath.read_bytes()
+        except OSError:
+            self.send_error(404, "Not found")
+            return
+        ctype = MIME.get(fpath.suffix.lower(), "application/octet-stream")
+        self.send_response(200)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Length", str(len(data)))
+        self.send_header("Cache-Control", "no-cache")
+        self.end_headers()
+        self.wfile.write(data)
+
+    def proxy_api(self, with_body):
+        url = f"http://localhost:{MAIN_PORT}{self.path}"
+        body = None
+        if with_body:
+            length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(length) if length else None
+        req = urllib.request.Request(url, data=body, method=self.command)
+        for k, v in self.headers.items():
+            if k.lower() not in ("host", "content-length"):
+                req.add_header(k, v)
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                data = resp.read()
+                self.send_response(resp.status)
+                ctype = resp.headers.get("Content-Type", "application/json")
+                self.send_header("Content-Type", ctype)
+                self.send_header("Content-Length", str(len(data)))
+                self.end_headers()
+                self.wfile.write(data)
+        except urllib.error.HTTPError as e:
+            self.send_error(e.code, e.reason)
+        except Exception as e:
+            self.send_error(502, f"Proxy error: {e}")
+
+
+if __name__ == "__main__":
+    with socketserver.ThreadingTCPServer(("127.0.0.1", SHARE_PORT), Handler) as httpd:
+        httpd.allow_reuse_address = True
+        print(f"Glucose share server on http://127.0.0.1:{SHARE_PORT} (glucose page only)")
+        httpd.serve_forever()
