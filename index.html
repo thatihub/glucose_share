@@ -15,6 +15,24 @@
   <style>
     .share-banner { background: linear-gradient(135deg, #0d5c80, #0a3d5c); color: #eaf4fb; padding: 12px 18px; border-radius: 12px; margin: 12px 0 18px; font-size: 14px; }
     .share-banner b { color: #7fd8ff; }
+    .share-context { color: #9db8cc; font-size: 13px; margin: 0 0 10px; }
+    .share-h2 { margin: 22px 0 6px; font-size: 20px; }
+    .comp-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 640px) { .comp-charts { grid-template-columns: 1fr; } }
+    .share-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .chip { border-radius: 10px; padding: 8px 12px; font-size: 12px; color: #eaf4fb; border: 1px solid rgba(255,255,255,.10); min-width: 104px; }
+    .chip .chip-tag { opacity: .85; font-size: 11px; }
+    .chip .chip-value { display: block; font-size: 17px; font-weight: 800; margin: 1px 0; }
+    .chip .chip-delta { font-size: 11px; opacity: .9; }
+    .bp-cards { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 8px; align-items: stretch; }
+    @media (max-width: 640px) { .bp-cards { grid-template-columns: 1fr; } .bp-arrow { transform: rotate(90deg); justify-self: center; padding: 2px 0; } }
+    .bp-card { border-radius: 12px; padding: 12px 14px; border: 1px solid rgba(255,255,255,.10); color: #eaf4fb; }
+    .bp-card .bp-tag { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; opacity: .9; }
+    .bp-card .bp-val { font-size: 27px; font-weight: 800; margin: 2px 0; }
+    .bp-card .bp-val .bp-unit { font-size: 12px; font-weight: 600; opacity: .75; }
+    .bp-card .bp-meta { font-size: 11px; opacity: .85; line-height: 1.5; }
+    .bp-arrow { align-self: center; text-align: center; color: #7ee08f; font-size: 17px; font-weight: 800; white-space: nowrap; }
+    .bp-arrow small { display: block; color: #9db8cc; font-size: 10px; font-weight: 600; }
   </style>
 </head>
 <body data-page="glucose">
@@ -54,13 +72,12 @@
     <section id="g-heat" aria-label="Hour by day heatmap"></section>
     <section class="g-card" aria-label="Body composition">
       <div class="g-head">Body Composition · InBody</div>
-      <p id="share-comp-context" style="color:#9db8cc; font-size:13px; margin:0 0 10px;"></p>
-      <div class="latest-metrics" id="share-comp-pills"></div>
-      <h3 id="share-comp-change-heading" style="margin:16px 0 4px; font-size:15px;"></h3>
-      <div class="change-list" id="share-comp-change"></div>
+      <p class="share-context" id="share-comp-context"></p>
+      <div class="comp-charts" id="share-comp-chart"></div>
+      <div class="share-chips" id="share-comp-chips"></div>
     </section>
     <section aria-label="Blood pressure three-month comparison">
-      <h2 style="margin:22px 0 6px; font-size:20px;">Blood Pressure</h2>
+      <h2 class="share-h2">Blood Pressure</h2>
       <div class="sub">Three-month comparison — average blood pressure across three 3-month periods.</div>
       <div id="share-bp-comparison"></div>
     </section>
@@ -71,41 +88,75 @@
   <script>
     (function () {
       function fmtDate(iso) { if (!iso) return "-"; var d = new Date(iso + "T00:00:00"); return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); }
-      // Body composition pills — same logic as the main Body Composition page (latest InBody scan).
+      function fmtShort(iso) { var d = new Date(iso + "T00:00:00"); return d.toLocaleDateString("en-US", { month: "short", day: "numeric" }); }
+      function arrow(v) { return v < 0 ? "\u2193 " + Math.abs(v) : v > 0 ? "\u2191 " + v : "\u2192 0"; }
+      // ---- Body composition: mini line charts + compact chips (latest InBody scan) ----
       try {
         var rows = (window.DEXA_DATA && window.DEXA_DATA.rows) || [];
         var scans = rows.filter(function (r) { return r.scan_type === "InBody" && r.date >= "2026-06-28"; }).sort(function (a, b) { return a.date.localeCompare(b.date); });
         if (scans.length) {
           var latest = scans[scans.length - 1];
           var baseline = scans.filter(function (r) { return r.date === "2026-06-28"; })[0] || scans[0];
-          document.getElementById("share-comp-context").textContent = "Latest scan · " + fmtDate(latest.date) + (latest.location ? " · " + latest.location : "") + " · " + scans.length + " scans";
-          var metrics = [
-            ["Scan weight", latest.scan_weight_lb.toFixed(1) + " lb", "", "ib-pill-blue"],
-            ["Body fat", latest.body_fat_pct.toFixed(1) + "%", "", "ib-pill-rose"],
-            ["Lean mass", latest.lean_body_mass_lb.toFixed(1) + " lb", "", "ib-pill-violet"],
-            ["Skeletal muscle", latest.skeletal_muscle_mass_lb.toFixed(1) + " lb", "", "ib-pill-green"],
-            ["Basal metabolic rate", Math.round(latest.basal_metabolic_rate_kcal) + " kcal", "", "ib-pill-amber"]
+          document.getElementById("share-comp-context").textContent = "Latest scan · " + fmtDate(latest.date) + (latest.location ? " · " + latest.location : "") + " · " + scans.length + " scans · change vs " + fmtShort(baseline.date);
+          function panel(title, key, color, fmt) {
+            var W = 410, H = 148, padL = 10, padR = 10, padT = 30, padB = 24;
+            var vals = scans.map(function (s) { return Number(s[key]); });
+            var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+            var span = (hi - lo) || 1; lo -= span * 0.25; hi += span * 0.35;
+            var X = function (i) { return padL + (W - padL - padR) * (scans.length === 1 ? 0.5 : i / (scans.length - 1)); };
+            var Y = function (v) { return padT + (H - padT - padB) * (1 - (v - lo) / (hi - lo)); };
+            var pts = vals.map(function (v, i) { return X(i).toFixed(1) + "," + Y(v).toFixed(1); }).join(" ");
+            var dots = vals.map(function (v, i) {
+              return '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(v).toFixed(1) + '" r="3.2" fill="' + color + '" stroke="#0d1626" stroke-width="1"/>'
+                + '<text x="' + X(i).toFixed(1) + '" y="' + (Y(v) - 8).toFixed(1) + '" text-anchor="middle" font-size="11" font-weight="700" fill="' + color + '">' + fmt(v) + '</text>'
+                + '<text x="' + X(i).toFixed(1) + '" y="' + (H - 7) + '" text-anchor="middle" font-size="10" fill="#5b7890">' + fmtShort(scans[i].date) + '</text>';
+            }).join("");
+            return '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;height:auto;background:#0d1626;border-radius:12px;display:block;">'
+              + '<text x="10" y="18" font-size="12" font-weight="700" fill="#c7d8e6">' + title + '</text>'
+              + '<polyline points="' + pts + '" fill="none" stroke="' + color + '" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>' + dots + '</svg>';
+          }
+          document.getElementById("share-comp-chart").innerHTML =
+            panel("Scan weight (lb)", "scan_weight_lb", "#38bdf8", function (v) { return v.toFixed(1); })
+            + panel("Body fat (%)", "body_fat_pct", "#f472b6", function (v) { return v.toFixed(1); });
+          function chip(tag, value, delta, bg) {
+            return '<div class="chip" style="background:' + bg + ';"><span class="chip-tag">' + tag + '</span><span class="chip-value">' + value + '</span>' + (delta ? '<span class="chip-delta">' + delta + " vs " + fmtShort(baseline.date) + '</span>' : "") + "</div>";
+          }
+          var d1 = function (v) { return (Math.round(v * 10) / 10).toFixed(1); };
+          var chips = [
+            chip("Weight", d1(latest.scan_weight_lb) + " lb", arrow(d1(latest.scan_weight_lb - baseline.scan_weight_lb)), "rgba(56,189,248,.16)"),
+            chip("Body fat", d1(latest.body_fat_pct) + "%", arrow(d1(latest.body_fat_pct - baseline.body_fat_pct)), "rgba(244,114,182,.16)"),
+            chip("Lean mass", d1(latest.lean_body_mass_lb) + " lb", arrow(d1(latest.lean_body_mass_lb - baseline.lean_body_mass_lb)), "rgba(167,139,250,.16)"),
+            chip("Muscle", d1(latest.skeletal_muscle_mass_lb) + " lb", arrow(d1(latest.skeletal_muscle_mass_lb - baseline.skeletal_muscle_mass_lb)), "rgba(52,211,153,.16)"),
+            chip("BMR", Math.round(latest.basal_metabolic_rate_kcal) + " kcal", "", "rgba(251,191,36,.16)")
           ];
           var homeRef = window.HOME_WEIGHT_REFERENCE;
-          if (homeRef) metrics.splice(3, 0, ["Home weight · reference only", String(homeRef.weight_lb.toFixed(1)).replace(/\.0$/, "") + " lb", fmtDate(homeRef.date) + " · " + homeRef.source + " · not an InBody measurement", "ib-pill-slate"]);
-          document.getElementById("share-comp-pills").innerHTML = metrics.map(function (m) {
-            return '<div class="ib-pill ' + m[3] + '"><div class="ib-pill-tag">' + m[0] + '</div><div class="ib-pill-value">' + m[1] + '</div>' + (m[2] ? '<div class="ib-pill-note">' + m[2] + '</div>' : "") + "</div>";
-          }).join("");
-          document.getElementById("share-comp-change-heading").textContent = "Change since " + fmtDate(baseline.date);
-          var signed = function (v, suffix) { return (v > 0 ? "+" : "") + v.toFixed(1) + suffix; };
-          var chg = function (k) { return latest[k] - baseline[k]; };
-          document.getElementById("share-comp-change").innerHTML = [
-            ["Scan weight", signed(chg("scan_weight_lb"), " lb")],
-            ["Fat mass", signed(chg("body_fat_mass_lb"), " lb")],
-            ["Lean mass", signed(chg("lean_body_mass_lb"), " lb")],
-            ["Skeletal muscle", signed(chg("skeletal_muscle_mass_lb"), " lb")]
-          ].map(function (m) { return '<div class="ib-pill ib-pill-amber"><div class="ib-pill-tag">' + m[0] + '</div><div class="ib-pill-value">' + m[1] + '</div></div>'; }).join("");
+          if (homeRef) chips.push(chip("Home weight · ref", d1(homeRef.weight_lb) + " lb", "", "rgba(148,163,184,.18)"));
+          document.getElementById("share-comp-chips").innerHTML = chips.join("");
         }
       } catch (e) { /* body composition unavailable */ }
-      // Blood pressure three-month comparison — same module as the main BP page.
+      // ---- Blood pressure: compact colorful 3-period comparison cards ----
       try {
         if (window.BPComparison && window.BP_DASH_DATA) {
-          BPComparison.render(document.getElementById("share-bp-comparison"), BPComparison.calculate(window.BP_DASH_DATA.slice()));
+          var cmp = BPComparison.calculate(window.BP_DASH_DATA.slice());
+          function card(p, tag, bg) {
+            if (!p.count) return '<div class="bp-card" style="background:' + bg + ';"><div class="bp-tag">' + tag + '</div><div class="bp-val">Needs data</div></div>';
+            return '<div class="bp-card" style="background:' + bg + ';"><div class="bp-tag">' + tag + '</div>'
+              + '<div class="bp-val">' + Math.round(p.systolic) + "/" + Math.round(p.diastolic) + ' <span class="bp-unit">mmHg</span></div>'
+              + '<div class="bp-meta">' + p.count + " readings · " + fmtDate(p.start) + " \u2013 " + fmtDate(p.end) + "</div></div>";
+          }
+          function bpArrow(from, to) {
+            if (!from.count || !to.count) return '<div class="bp-arrow">\u2192</div>';
+            var ds = Math.round(to.systolic - from.systolic), dd = Math.round(to.diastolic - from.diastolic);
+            var f = function (v) { return v < 0 ? "\u2193" + Math.abs(v) : v > 0 ? "\u2191" + v : "\u21920"; };
+            return '<div class="bp-arrow">' + f(ds) + " / " + f(dd) + "<small>SYS / DIA</small></div>";
+          }
+          document.getElementById("share-bp-comparison").innerHTML = '<div class="bp-cards">'
+            + card(cmp.earliest, "Earliest 3 months", "rgba(244,114,182,.14)")
+            + bpArrow(cmp.earliest, cmp.previous)
+            + card(cmp.previous, "Previous 3 months", "rgba(251,191,36,.14)")
+            + bpArrow(cmp.previous, cmp.current)
+            + card(cmp.current, "Current 3 months", "rgba(52,211,153,.16)")
+            + "</div>";
         }
       } catch (e) { /* BP comparison unavailable */ }
     })();
