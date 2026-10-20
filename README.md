@@ -4,15 +4,17 @@ Standalone, isolated glucose dashboard for sharing with friends for testing.
 
 ## What it is
 
-A minimal web server that serves **only** the glucose page from the Personal Health Manager:
+A minimal web server that serves the glucose page from the Personal Health Manager, plus two summary sections at the bottom of the page:
 
 - `/` — the glucose dashboard (no navigation to other pages)
 - `/glucose_data.js` — live glucose data (read directly from the main project)
 - `/glucose_view.js` — chart and analysis logic
+- `/dexa_data.js`, `/home_weight_reference.js` — Body Composition (InBody) pills at the bottom of the page
+- `/bp_data.js`, `/bp_comparison.js` — Blood Pressure three-month comparison at the bottom of the page
 - `/static/*` — CSS/JS assets
 - `/api/dexcom/*` — proxied to the main server so the Sync button works
 
-Everything else returns 404. Friends cannot access labs, weight, medications, or any other part of the health manager.
+Everything else returns 404. Friends cannot access labs, medications, or any other part of the health manager.
 
 ## Running
 

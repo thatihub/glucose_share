@@ -8,6 +8,9 @@
   <script src="./static/js/app.js"></script>
   <script>
     document.write('<script src="./glucose_data.js?ts=' + Date.now() + '"><\/script>');
+    document.write('<script src="./dexa_data.js?ts=' + Date.now() + '"><\/script>');
+    document.write('<script src="./home_weight_reference.js?ts=' + Date.now() + '"><\/script>');
+    document.write('<script src="./bp_data.js?ts=' + Date.now() + '"><\/script>');
   </script>
   <style>
     .share-banner { background: linear-gradient(135deg, #0d5c80, #0a3d5c); color: #eaf4fb; padding: 12px 18px; border-radius: 12px; margin: 12px 0 18px; font-size: 14px; }
@@ -49,9 +52,64 @@
       <div class="bp-method">One full day of readings every five minutes. Amber triangles mark insulin doses, green diamonds mark logged meals — hover a marker for the detail. Traces cover the most recent 31 days of the export.</div>
     </section>
     <section id="g-heat" aria-label="Hour by day heatmap"></section>
+    <section class="g-card" aria-label="Body composition">
+      <div class="g-head">Body Composition · InBody</div>
+      <p id="share-comp-context" style="color:#9db8cc; font-size:13px; margin:0 0 10px;"></p>
+      <div class="latest-metrics" id="share-comp-pills"></div>
+      <h3 id="share-comp-change-heading" style="margin:16px 0 4px; font-size:15px;"></h3>
+      <div class="change-list" id="share-comp-change"></div>
+    </section>
+    <section aria-label="Blood pressure three-month comparison">
+      <h2 style="margin:22px 0 6px; font-size:20px;">Blood Pressure</h2>
+      <div class="sub">Three-month comparison — average blood pressure across three 3-month periods.</div>
+      <div id="share-bp-comparison"></div>
+    </section>
     <div class="bp-method" id="g-source" style="margin:10px 2px 26px;"></div>
   </div>
   <script src="./glucose_view.js?v=20261019-share"></script>
+  <script src="./bp_comparison.js?v=20261020-share"></script>
+  <script>
+    (function () {
+      function fmtDate(iso) { if (!iso) return "-"; var d = new Date(iso + "T00:00:00"); return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); }
+      // Body composition pills — same logic as the main Body Composition page (latest InBody scan).
+      try {
+        var rows = (window.DEXA_DATA && window.DEXA_DATA.rows) || [];
+        var scans = rows.filter(function (r) { return r.scan_type === "InBody" && r.date >= "2026-06-28"; }).sort(function (a, b) { return a.date.localeCompare(b.date); });
+        if (scans.length) {
+          var latest = scans[scans.length - 1];
+          var baseline = scans.filter(function (r) { return r.date === "2026-06-28"; })[0] || scans[0];
+          document.getElementById("share-comp-context").textContent = "Latest scan · " + fmtDate(latest.date) + (latest.location ? " · " + latest.location : "") + " · " + scans.length + " scans";
+          var metrics = [
+            ["Scan weight", latest.scan_weight_lb.toFixed(1) + " lb", "", "ib-pill-blue"],
+            ["Body fat", latest.body_fat_pct.toFixed(1) + "%", "", "ib-pill-rose"],
+            ["Lean mass", latest.lean_body_mass_lb.toFixed(1) + " lb", "", "ib-pill-violet"],
+            ["Skeletal muscle", latest.skeletal_muscle_mass_lb.toFixed(1) + " lb", "", "ib-pill-green"],
+            ["Basal metabolic rate", Math.round(latest.basal_metabolic_rate_kcal) + " kcal", "", "ib-pill-amber"]
+          ];
+          var homeRef = window.HOME_WEIGHT_REFERENCE;
+          if (homeRef) metrics.splice(3, 0, ["Home weight · reference only", String(homeRef.weight_lb.toFixed(1)).replace(/\.0$/, "") + " lb", fmtDate(homeRef.date) + " · " + homeRef.source + " · not an InBody measurement", "ib-pill-slate"]);
+          document.getElementById("share-comp-pills").innerHTML = metrics.map(function (m) {
+            return '<div class="ib-pill ' + m[3] + '"><div class="ib-pill-tag">' + m[0] + '</div><div class="ib-pill-value">' + m[1] + '</div>' + (m[2] ? '<div class="ib-pill-note">' + m[2] + '</div>' : "") + "</div>";
+          }).join("");
+          document.getElementById("share-comp-change-heading").textContent = "Change since " + fmtDate(baseline.date);
+          var signed = function (v, suffix) { return (v > 0 ? "+" : "") + v.toFixed(1) + suffix; };
+          var chg = function (k) { return latest[k] - baseline[k]; };
+          document.getElementById("share-comp-change").innerHTML = [
+            ["Scan weight", signed(chg("scan_weight_lb"), " lb")],
+            ["Fat mass", signed(chg("body_fat_mass_lb"), " lb")],
+            ["Lean mass", signed(chg("lean_body_mass_lb"), " lb")],
+            ["Skeletal muscle", signed(chg("skeletal_muscle_mass_lb"), " lb")]
+          ].map(function (m) { return '<div class="ib-pill ib-pill-amber"><div class="ib-pill-tag">' + m[0] + '</div><div class="ib-pill-value">' + m[1] + '</div></div>'; }).join("");
+        }
+      } catch (e) { /* body composition unavailable */ }
+      // Blood pressure three-month comparison — same module as the main BP page.
+      try {
+        if (window.BPComparison && window.BP_DASH_DATA) {
+          BPComparison.render(document.getElementById("share-bp-comparison"), BPComparison.calculate(window.BP_DASH_DATA.slice()));
+        }
+      } catch (e) { /* BP comparison unavailable */ }
+    })();
+  </script>
   <script>
     // Static snapshot (GitHub Pages) has no Dexcom API: hide the sync panel there only.
     if (/(^|\.)github\.io$/i.test(location.hostname)) { var s = document.getElementById('g-sync'); if (s) s.style.display = 'none'; }

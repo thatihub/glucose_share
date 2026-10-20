@@ -76,6 +76,11 @@ class Handler(http.server.BaseHTTPRequestHandler):
         if path == "/glucose_view.js":
             self.serve_file(MAIN_DIR / "glucose_view.js")
             return
+        # Extra sections at the bottom of the share page: body composition pills
+        # (InBody) and the blood pressure three-month comparison.
+        if path in ("/dexa_data.js", "/home_weight_reference.js", "/bp_data.js", "/bp_comparison.js"):
+            self.serve_file(MAIN_DIR / path.lstrip("/"))
+            return
 
         self.send_error(404, "Not shared")
 
