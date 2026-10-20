@@ -16,7 +16,7 @@
 </head>
 <body data-page="glucose">
   <div class="wrap">
-    <div class="share-banner">Shared glucose dashboard — live data from Prakash's Dexcom. Read-only preview for testing.</div>
+    <div class="share-banner">Shared glucose dashboard — Prakash's Dexcom data. Read-only preview for testing.</div>
     <h1>Glucose</h1>
     <div class="sub">Full Dexcom CGM analysis — time in range, daily pattern (AGP), day explorer with insulin and meal markers, and an hour-by-day heatmap.</div>
     <section id="g-sync" aria-label="Dexcom sync"></section>
@@ -52,5 +52,9 @@
     <div class="bp-method" id="g-source" style="margin:10px 2px 26px;"></div>
   </div>
   <script src="./glucose_view.js?v=20261019-share"></script>
+  <script>
+    // Static snapshot (GitHub Pages) has no Dexcom API: hide the sync panel there only.
+    if (/(^|\.)github\.io$/i.test(location.hostname)) { var s = document.getElementById('g-sync'); if (s) s.style.display = 'none'; }
+  </script>
 </body>
 </html>
